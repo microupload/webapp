@@ -11,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'micro-upload',
-    loadChildren: './apps/micro-upload/micro-upload.module#MicroUpload'
+    loadChildren: './apps/micro-upload/micro-upload.module#MicroUploadModule'
   }
 ];
 
