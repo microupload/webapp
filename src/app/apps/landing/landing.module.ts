@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LandingComponent } from './landing.component';
+import { HomeComponent } from './pages/home/home.component';
+import { HeroComponent } from './partials/hero/hero.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LandingComponent
+    component: HomeComponent
   }
 ];
 
@@ -16,6 +18,6 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [LandingComponent]
+  declarations: [LandingComponent, HomeComponent, HeroComponent]
 })
 export class LandingModule { }

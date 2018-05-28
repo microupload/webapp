@@ -1,0 +1,21 @@
+#service-info {
+    padding: 10px;
+    text-align: center;
+    ul {
+        display: inline-block;
+        max-width: 400px;
+        text-align: left;
+        list-style-type: square;
+        font-size: 24px;
+    }
+}
+#service-architecture {
+    padding: 10px;
+    text-align: center;
+    ul {
+        list-style-type: none;
+    }
+    img {
+        max-height: 300px;
+    }
+}
