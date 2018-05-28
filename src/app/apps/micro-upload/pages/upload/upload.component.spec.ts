@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { UploadComponent } from './upload.component';
 import { HeaderComponent } from '../../partials/header/header.component';
+import { FileService } from '../../services/file.service';
 
 describe('UploadComponent', () => {
   let component: UploadComponent;
@@ -12,6 +14,12 @@ describe('UploadComponent', () => {
       declarations: [
         UploadComponent,
         HeaderComponent
+      ],
+      providers: [
+        FileService
+      ],
+      imports: [
+        HttpClientTestingModule
       ]
     })
     .compileComponents();

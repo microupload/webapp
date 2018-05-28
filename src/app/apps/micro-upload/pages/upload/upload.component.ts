@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'app-upload',
@@ -9,7 +10,7 @@ export class UploadComponent implements OnInit {
 
   private file: File;
 
-  constructor() { }
+  constructor(private fileService: FileService) { }
 
   ngOnInit() {
   }
@@ -26,8 +27,10 @@ export class UploadComponent implements OnInit {
     return this.file === undefined;
   }
 
-  public onSubmit($event): void {
+  public async onSubmit($event) {
     $event.preventDefault();
     console.log(`Uploading ${this.filename}`);
+    const metadata = await this.fileService.upload(this.file);
+    console.log(metadata);
   }
 }
