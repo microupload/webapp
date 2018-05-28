@@ -2,6 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DownloadComponent } from './download.component';
 import { HeaderComponent } from '../../partials/header/header.component';
+import { FileService } from '../../services/file.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DownloadComponent', () => {
   let component: DownloadComponent;
@@ -12,6 +15,13 @@ describe('DownloadComponent', () => {
       declarations: [
         DownloadComponent,
         HeaderComponent
+      ],
+      providers: [
+        FileService
+      ],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule
       ]
     })
     .compileComponents();
