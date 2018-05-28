@@ -27,10 +27,10 @@ export class UploadComponent implements OnInit {
     this.file = $event.target.files[0];
   }
 
-  public onKeyChange($event) {
+  public async onKeyChange($event) {
     this.removeLink();
     this.pub = $event.target.files[0];
-    this.crypo.pub = this.pub;
+    await this.crypo.setPub(this.pub);
   }
 
   public get filename(): string {
