@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from '../../services/file.service';
+import { environment } from '../../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-upload',
@@ -9,6 +10,7 @@ import { FileService } from '../../services/file.service';
 export class UploadComponent implements OnInit {
 
   private file: File;
+  public link: string;
 
   constructor(private fileService: FileService) { }
 
@@ -16,6 +18,7 @@ export class UploadComponent implements OnInit {
   }
 
   public onFileChange($event) {
+    this.removeLink();
     this.file = $event.target.files[0];
     console.log(this.file);
   }
@@ -30,7 +33,17 @@ export class UploadComponent implements OnInit {
   public async onSubmit($event) {
     $event.preventDefault();
     console.log(`Uploading ${this.filename}`);
-    const metadata = await this.fileService.upload(this.file);
+    const metadata: any = await this.fileService.upload(this.file);
     console.log(metadata);
+    this.generateLink(metadata.id);
   }
+
+  public generateLink(token: string) {
+    this.link = `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}/micro-upload/${token}`;
+  }
+
+  public removeLink() {
+    this.link = undefined;
+  }
+
 }
