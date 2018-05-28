@@ -6,6 +6,7 @@ import { MicroUploadComponent } from './micro-upload.component';
 import { UploadComponent } from './pages/upload/upload.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { HeaderComponent } from './partials/header/header.component';
+import { FileService } from './services/file.service';
 
 const routes: Routes = [
   {
@@ -28,6 +29,9 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [MicroUploadComponent, UploadComponent, DownloadComponent, HeaderComponent]
+  declarations: [MicroUploadComponent, UploadComponent, DownloadComponent, HeaderComponent],
+  providers: [
+    FileService
+  ]
 })
 export class MicroUploadModule { }
