@@ -1,6 +1,10 @@
 {
   "hosting": {
     "public": "dist/webapp",
+    "predeploy": [
+      "npm install",
+      "ng build --prod --aot"
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
