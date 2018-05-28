@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MicroUploadComponent } from './micro-upload.component';
 import { UploadComponent } from './pages/upload/upload.component';
+import { DownloadComponent } from './pages/download/download.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,6 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [MicroUploadComponent, UploadComponent]
+  declarations: [MicroUploadComponent, UploadComponent, DownloadComponent]
 })
 export class MicroUploadModule { }
