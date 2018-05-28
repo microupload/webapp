@@ -7,6 +7,7 @@ import * as forge from 'node-forge';
 export class CryptoService {
 
   private _pub: string;
+  private _priv: string;
 
   constructor() { }
 
@@ -16,6 +17,17 @@ export class CryptoService {
         this._pub = await this.readFile(pub);
       } catch (e) {
         this._pub = undefined;
+      }
+    })();
+  }
+
+  public set priv(priv: File) {
+    (async () => {
+      try {
+        this._priv = await this.readFile(priv);
+        console.log(this._priv);
+      } catch (e) {
+        this._priv = undefined;
       }
     })();
   }
