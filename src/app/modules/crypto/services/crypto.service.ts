@@ -10,11 +10,15 @@ export class CryptoService {
   constructor() { }
 
   public set pub(pub: File) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      this._pub = (<any>e.target).result;
-    };
-    reader.readAsText(pub);
+    if (pub === undefined) {
+      this._pub = undefined;
+    } else {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this._pub = (<any>e.target).result;
+      };
+      reader.readAsText(pub);
+    }
   }
 
   private get pubkey(): string {
