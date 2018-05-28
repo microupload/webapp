@@ -7,7 +7,12 @@ input[type=file] {
     width: 1px;
     opacity: 0;
 }
-#filename {
+.w3-container {
+    height: 385px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#filename, #pubname {
     display: inline-block;
     width: calc( 100% - 100px );
     margin-left: 10px;
