@@ -22,7 +22,6 @@ export class CryptoService {
   public async setPriv(priv: File) {
     try {
       this._priv = await this.readFile(priv);
-      console.log(this._priv);
     } catch (e) {
       this._priv = undefined;
     }
