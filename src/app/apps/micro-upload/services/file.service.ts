@@ -17,8 +17,13 @@ export class FileService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
     const formData = new FormData();
-    const encrypted = await this.crypto.encrypt(file);
+    const { encrypted, key, iv } = await this.crypto.encrypt(file);
     formData.append('file', encrypted, file.name);
+    formData.append('iv', iv);
+    formData.append('key', key);
+    formData.append('filename', file.name);
+    formData.append('mimetype', file.type);
+    formData.append('size', `${file.size}`);
     const uploadUrl = `${environment.api}/upload`;
     const response = await this.http.post(uploadUrl, formData, { headers }).toPromise();
     return response;
