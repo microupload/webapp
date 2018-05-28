@@ -7,7 +7,7 @@ input[type=file] {
     width: 1px;
     opacity: 0;
 }
-#filename {
+#filename, #pubname {
     display: inline-block;
     width: calc( 100% - 100px );
     margin-left: 10px;
