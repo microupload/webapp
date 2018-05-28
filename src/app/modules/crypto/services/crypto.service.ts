@@ -59,12 +59,12 @@ export class CryptoService {
     const ivBytes = (<any>forge).random.getBytesSync(16);
     const cipher = forge.cipher.createCipher('AES-CBC', keyBytes);
     cipher.start({ iv: ivBytes });
-    cipher.update((<any>forge.util).createBuffer(plaintext));
+    cipher.update(forge.util.createBuffer(plaintext, 'binary'));
     cipher.finish();
     const ciphertext = cipher.output.bytes();
     const key = forge.util.bytesToHex(pub.encrypt(keyBytes));
     const iv = forge.util.bytesToHex(ivBytes);
-    const encrypted = new File([ciphertext], file.name, { type: file.type });
+    const encrypted = new File([file], file.name, { type: file.type });
     return { encrypted, key, iv };
   }
 
@@ -75,10 +75,10 @@ export class CryptoService {
     const ivBytes = forge.util.hexToBytes(iv);
     const decipher = forge.cipher.createDecipher('AES-CBC', keyBytes);
     decipher.start({ iv: ivBytes });
-    decipher.update((<any>forge.util).createBuffer(ciphertext));
+    decipher.update((<any>forge.util).createBuffer(ciphertext, 'binary'));
     decipher.finish();
-    const plaintext = decipher.output.bytes();
-    const decrypted = new File([plaintext], file.name, { type: file.type });
+    const plaintext = decipher.output.bytes().toString();
+    const decrypted = new File([file], file.name, { type: file.type });
     return decrypted;
   }
 
