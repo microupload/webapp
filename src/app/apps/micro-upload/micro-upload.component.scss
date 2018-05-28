@@ -1,6 +1,29 @@
 :host {
     background-image: url("https://www.xmple.com/wallpaper/purple-gradient-turquoise-linear-2732x2048-c2-199d7a-7b68ee-a-30-f-14.svg");
-    min-height: 100vh;
-    min-width: 100vw;
-    display: inline-block;
+    height: 100vh;
+    width: 100vw;
+    display: block;
+    position: relative;
+    overflow: auto;
+}
+#logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1;
+}
+#box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 330px;
+    min-height: 400px;
+    transform: translate(-50%,-50%);
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    z-index: 2;
+}
+img {
+    outline: none !important;
+    cursor: pointer;
 }
