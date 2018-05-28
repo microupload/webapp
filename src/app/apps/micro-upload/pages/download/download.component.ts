@@ -59,7 +59,7 @@ export class DownloadComponent implements OnInit {
     const type = metadata.mimetype;
     let file: File;
     try {
-      file = await this.crypto.decrypt(new File([data], metadata.filename, { type }));
+      file = await this.crypto.decrypt(new File([data], metadata.filename, { type }), metadata.key, metadata.iv);
     } catch (e) {
       this.message = e.message;
       console.log(e);
@@ -72,11 +72,11 @@ export class DownloadComponent implements OnInit {
       elem.download = filename;
       document.body.appendChild(elem);
       elem.click();
+      this.message = 'Your file is ready!';
       setTimeout(() => {
-        this.message = 'Your file is ready!';
         window.URL.revokeObjectURL(elem.href);
         document.body.removeChild(elem);
-      }, 0);
+      }, 100);
     }
 
   }

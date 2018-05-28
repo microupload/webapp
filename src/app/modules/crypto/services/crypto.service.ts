@@ -56,15 +56,29 @@ export class CryptoService {
   public async encrypt(file: File) {
     const pub = this.publicKey;
     const plaintext: string = await this.readFile(file);
-    const ciphertext = pub.encrypt(plaintext);
+    const keyBytes = (<any>forge).random.getBytesSync(16);
+    const ivBytes = (<any>forge).random.getBytesSync(16);
+    const cipher = forge.cipher.createCipher('AES-CBC', keyBytes);
+    cipher.start({ iv: ivBytes });
+    cipher.update((<any>forge.util).createBuffer(plaintext));
+    cipher.finish();
+    const ciphertext = cipher.output.bytes();
+    const key = forge.util.bytesToHex(pub.encrypt(keyBytes));
+    const iv = forge.util.bytesToHex(ivBytes);
     const encrypted = new File([ciphertext], file.name, { type: file.type });
-    return encrypted;
+    return { encrypted, key, iv };
   }
 
-  public async decrypt(file: File) {
+  public async decrypt(file: File, key: string, iv: string) {
     const priv = this.privateKey;
     const ciphertext: string = await this.readFile(file);
-    const plaintext = priv.decrypt(ciphertext);
+    const keyBytes = priv.decrypt(forge.util.hexToBytes(key));
+    const ivBytes = forge.util.hexToBytes(iv);
+    const decipher = forge.cipher.createDecipher('AES-CBC', keyBytes);
+    decipher.start({ iv: ivBytes });
+    decipher.update((<any>forge.util).createBuffer(ciphertext));
+    decipher.finish();
+    const plaintext = decipher.output.bytes();
     const decrypted = new File([plaintext], file.name, { type: file.type });
     return decrypted;
   }
