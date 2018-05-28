@@ -9,7 +9,17 @@ import { DownloadComponent } from './pages/download/download.component';
 const routes: Routes = [
   {
     path: '',
-    component: MicroUploadComponent
+    component: MicroUploadComponent,
+    children: [
+      {
+        path: '',
+        component: UploadComponent
+      },
+      {
+        path: ':id',
+        component: DownloadComponent
+      }
+    ]
   }
 ];
 @NgModule({
