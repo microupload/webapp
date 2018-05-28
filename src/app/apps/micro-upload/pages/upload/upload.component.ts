@@ -13,6 +13,7 @@ export class UploadComponent implements OnInit {
   private file: File;
   private pub: File;
   public link: string;
+  public message: string;
 
   constructor(
     private fileService: FileService,
@@ -48,16 +49,21 @@ export class UploadComponent implements OnInit {
   public async onSubmit($event) {
     $event.preventDefault();
     console.log(`Uploading ${this.filename}`);
-    const metadata: any = await this.fileService.upload(this.file);
-    console.log(metadata);
-    this.generateLink(metadata.id);
+    try {
+      const metadata: any = await this.fileService.upload(this.file);
+      this.generateLink(metadata.id);
+    } catch (e) {
+      this.message = e.message;
+    }
   }
 
   public generateLink(token: string) {
+    this.message = '';
     this.link = `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}/micro-upload/${token}`;
   }
 
   public removeLink() {
+    this.message = '';
     this.link = undefined;
   }
 
