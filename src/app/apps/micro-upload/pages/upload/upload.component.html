@@ -9,6 +9,14 @@
     <label for="upload" class="w3-btn w3-ripple w3-blue w3-round">Select</label>
     <input class="w3-input" type="text" id="filename" readonly [value]="filename">
     <br>
+    <br>
+    <label>Select a public key for encryption</label>
+    <input name="pub" id="pub" type="file" (change)="onKeyChange($event)">
+    <br>
+    <br>
+    <label for="pub" class="w3-btn w3-ripple w3-blue w3-round">Select</label>
+    <input class="w3-input" type="text" id="filename" readonly [value]="pubname">
+    <br>
     <hr *ngIf="link">
     <fieldset *ngIf="link">
       <legend>Download Link</legend>
