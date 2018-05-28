@@ -7,6 +7,7 @@ import { UploadComponent } from './pages/upload/upload.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { HeaderComponent } from './partials/header/header.component';
 import { FileService } from './services/file.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    HttpClientModule
   ],
   declarations: [MicroUploadComponent, UploadComponent, DownloadComponent, HeaderComponent],
   providers: [
