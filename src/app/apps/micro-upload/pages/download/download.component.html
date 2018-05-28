@@ -9,11 +9,8 @@
   <label for="pub" class="w3-btn w3-ripple w3-blue w3-round">Select</label>
   <input class="w3-input" type="text" id="privname" readonly [value]="privname">
   <br>
-  <p *ngIf="!downloaded">
-    Please wait while your file downloads...
-  </p>
-  <p *ngIf="downloaded">
-    Your file has been downloaded successfully!
+  <p>
+    {{ message }}
   </p>
 </div>
 <div id="footer">

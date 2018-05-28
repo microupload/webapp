@@ -13,6 +13,7 @@ export class DownloadComponent implements OnInit {
   public title = 'Downloading...';
   public downloaded = false;
   public priv: File;
+  public message = 'Please wait while your file downloads...';
 
   private data: any;
   private metadata: any;
@@ -30,6 +31,11 @@ export class DownloadComponent implements OnInit {
         if (id !== undefined) {
           this.data = await this.fileService.download(id);
           this.metadata = await this.fileService.downloadMetadata(id);
+          if (this.priv === undefined) {
+            this.message = 'Please select the private key for this file';
+          } else {
+            this.message = 'Your file is being decrypted!';
+          }
           this.title = (<any>this.metadata).filename;
         }
       }
@@ -50,7 +56,7 @@ export class DownloadComponent implements OnInit {
   private async createDownloadLink(data, metadata) {
     const filename = metadata.filename;
     const type = metadata.mimetype;
-    const blob = await this.crypto.decrypt( new File([data], metadata.filename, { type }) );
+    const blob = await this.crypto.decrypt(new File([data], metadata.filename, { type }));
     if (window.navigator.msSaveOrOpenBlob) {
       window.navigator.msSaveBlob(blob, filename);
     } else {
@@ -60,6 +66,7 @@ export class DownloadComponent implements OnInit {
       document.body.appendChild(elem);
       elem.click();
       setTimeout(() => {
+        this.message = 'Your file is ready!';
         window.URL.revokeObjectURL(elem.href);
         document.body.removeChild(elem);
       }, 0);
