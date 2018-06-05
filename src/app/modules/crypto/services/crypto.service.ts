@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as forge from 'node-forge';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -56,28 +57,46 @@ export class CryptoService {
     const pub = this.publicKey;
     const plaintext: string = await this.readFile(file);
     const keyBytes = (<any>forge).random.getBytesSync(32);
-    const ivBytes = (<any>forge).random.getBytesSync(32);
-    const cipher = forge.cipher.createCipher('AES-CBC', keyBytes);
-    cipher.start({ iv: ivBytes });
-    cipher.update(forge.util.createBuffer(plaintext, 'binary'));
-    cipher.finish();
-    const ciphertext = cipher.output.bytes();
-    const key = forge.util.bytesToHex(pub.encrypt(keyBytes));
+    const ivBytes = (<any>forge).random.getBytesSync(16);
+    const key = forge.util.bytesToHex(keyBytes);
     const iv = forge.util.bytesToHex(ivBytes);
+    const mode = CryptoJS.mode.CTR;
+    const padding = CryptoJS.pad.NoPadding;
+    const ciphertext_b64 = CryptoJS.AES.encrypt(
+      plaintext,
+      CryptoJS.enc.Hex.parse(key),
+      {
+        iv: CryptoJS.enc.Hex.parse(iv),
+        mode,
+        padding
+      }
+    ).toString();
+    const ciphertext_hex = CryptoJS.enc.Base64.parse(ciphertext_b64).toString(CryptoJS.enc.Hex);
+    const ciphertext = forge.util.hexToBytes(ciphertext_hex);
+    const key_encrypted = forge.util.bytesToHex(pub.encrypt(keyBytes));
     const encrypted = new File([ciphertext], file.name, { type: file.type });
-    return { encrypted, key, iv };
+    return { encrypted, key: key_encrypted, iv };
   }
 
-  public async decrypt(file: File, key: string, iv: string) {
+  public async decrypt(file: File, key_encrypted: string, iv: string) {
     const priv = this.privateKey;
     const ciphertext: string = await this.readFile(file);
-    const keyBytes = priv.decrypt(forge.util.hexToBytes(key));
-    const ivBytes = forge.util.hexToBytes(iv);
-    const decipher = forge.cipher.createDecipher('AES-CBC', keyBytes);
-    decipher.start({ iv: ivBytes });
-    decipher.update((<any>forge.util).createBuffer(ciphertext, 'binary'));
-    decipher.finish();
-    const plaintext = decipher.output.bytes().toString();
+    const ciphertext_hex = forge.util.bytesToHex(ciphertext);
+    const ciphertext_b64 = CryptoJS.enc.Hex.parse(ciphertext_hex).toString(CryptoJS.enc.Base64);
+    const keyBytes = priv.decrypt(forge.util.hexToBytes(key_encrypted));
+    const key = forge.util.bytesToHex(keyBytes);
+    const mode = CryptoJS.mode.CTR;
+    const padding = CryptoJS.pad.NoPadding;
+    const plaintext_hex = CryptoJS.AES.decrypt(
+      ciphertext_b64,
+      CryptoJS.enc.Hex.parse(key),
+      {
+        iv: CryptoJS.enc.Hex.parse(iv),
+        mode,
+        padding
+      }
+    ).toString();
+    const plaintext = forge.util.hexToBytes(plaintext_hex);
     const decrypted = new File([plaintext], file.name, { type: file.type });
     return decrypted;
   }
