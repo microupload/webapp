@@ -55,8 +55,8 @@ export class CryptoService {
   public async encrypt(file: File) {
     const pub = this.publicKey;
     const plaintext: string = await this.readFile(file);
-    const keyBytes = (<any>forge).random.getBytesSync(16);
-    const ivBytes = (<any>forge).random.getBytesSync(16);
+    const keyBytes = (<any>forge).random.getBytesSync(32);
+    const ivBytes = (<any>forge).random.getBytesSync(32);
     const cipher = forge.cipher.createCipher('AES-CBC', keyBytes);
     cipher.start({ iv: ivBytes });
     cipher.update(forge.util.createBuffer(plaintext, 'binary'));
